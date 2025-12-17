@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.CloudWatchLogs" Version="3.7.507.1" />
+      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.509.9" />
+      <PackageReference Include="Elasticsearch.Net.Aws" Version="7.2.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.22" />
+      <PackageReference Include="NEST" Version="7.6.2" />
+      <PackageReference Include="NEST.JsonNetSerializer" Version="7.6.2" />
+      <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
+    </ItemGroup>
+
+</Project>

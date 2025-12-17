@@ -1,0 +1,26 @@
+﻿bin/
+obj/
+out/
+
+.vs/
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Secrets & Environment ---
+*.usersecrets
+.env
+*.pem
+*.suo
+*.user
+*.userosscache
+
+.DS_Store
+Thumbs.db
+.aws/
+.chalice/
+
+node_modules/
+jspm_packages/
