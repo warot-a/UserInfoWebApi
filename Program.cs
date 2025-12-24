@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using UserInfoWebApi.AuthenticationHandlers;
-using UserInfoWebApi.Controllers;
 using UserInfoWebApi.Logger;
+using UserInfoWebApi.Middleware;
 using UserInfoWebApi.Model;
 using UserInfoWebApi.ServiceFactory;
 using Serilog;
@@ -42,13 +42,12 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddUserInfoServiceDependencies();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.AddAuthentication()
     .AddScheme<ApplicationIdAuthenticationOptions, ApplicationIdAuthenticationHandler>
-        (AuthenticationConstants.ApplicationIdAuthentication, (options) => { });
+        (AuthenticationConstants.ApplicationIdAuthentication, (_) => { });
 
 builder.Logging.ClearProviders();
 builder.Services.AddHttpContextAccessor();
@@ -64,8 +63,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<CustomHeaderMiddleware>();
-app.UseExceptionHandler("/error");
+// app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
