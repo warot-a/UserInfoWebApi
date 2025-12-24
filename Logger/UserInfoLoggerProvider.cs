@@ -3,22 +3,16 @@ using Microsoft.Extensions.Logging;
 namespace UserInfoWebApi.Logger
 
 {
-    public class UserInfoLoggerProvider : ILoggerProvider
+    public class UserInfoLoggerProvider(MiddlewareContextAccessor middlewareContextAccessor) : ILoggerProvider
     {
-        private readonly MiddlewareContextAccessor _middlewareContextAccessor;
-
-        public UserInfoLoggerProvider(MiddlewareContextAccessor middlewareContextAccessor)
-        {
-            _middlewareContextAccessor = middlewareContextAccessor;
-        }
-
         public ILogger CreateLogger(string categoryName)
         {
-            return new UserInfoLogger(_middlewareContextAccessor);
+            return new UserInfoLogger(middlewareContextAccessor);
         }
 
         public void Dispose()
-        {}
+        {
+        }
     }
 
     public class UserInfoLogger : ILogger
@@ -34,12 +28,14 @@ namespace UserInfoWebApi.Logger
         {
             return null;
         }
+
         public bool IsEnabled(LogLevel logLevel)
         {
             return logLevel != LogLevel.None;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+            Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled(logLevel))
             {
@@ -58,7 +54,7 @@ namespace UserInfoWebApi.Logger
                 {
                     prefix = $"traceid:{traceId}; {serviceFullname}; Path:{path}";
                 }
-                
+
                 var serilogLevel = logLevel switch
                 {
                     LogLevel.Trace => Serilog.Events.LogEventLevel.Verbose,
