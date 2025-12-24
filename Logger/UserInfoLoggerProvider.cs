@@ -36,11 +36,16 @@ namespace UserInfoWebApi.Logger
         }
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            return logLevel != LogLevel.None;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
             try
             {
                 var traceId = _middlewareContextAccessor.GetTraceId();
@@ -53,12 +58,23 @@ namespace UserInfoWebApi.Logger
                 {
                     prefix = $"traceid:{traceId}; {serviceFullname}; Path:{path}";
                 }
-                var message = $"{prefix} - {formatter(state, exception)}";
-                Console.WriteLine(message); 
+                
+                var serilogLevel = logLevel switch
+                {
+                    LogLevel.Trace => Serilog.Events.LogEventLevel.Verbose,
+                    LogLevel.Debug => Serilog.Events.LogEventLevel.Debug,
+                    LogLevel.Information => Serilog.Events.LogEventLevel.Information,
+                    LogLevel.Warning => Serilog.Events.LogEventLevel.Warning,
+                    LogLevel.Error => Serilog.Events.LogEventLevel.Error,
+                    LogLevel.Critical => Serilog.Events.LogEventLevel.Fatal,
+                    _ => Serilog.Events.LogEventLevel.Information,
+                };
+
+                Serilog.Log.Write(serilogLevel, exception, "{Prefix} - {Message}", prefix, formatter(state, exception));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred while logging: {ex.Message}");
+                Serilog.Log.Error(ex, "Error occurred while logging");
             }
         }
     }
