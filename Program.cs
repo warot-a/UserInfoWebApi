@@ -9,8 +9,16 @@ using UserInfoWebApi.Controllers;
 using UserInfoWebApi.Logger;
 using UserInfoWebApi.Model;
 using UserInfoWebApi.ServiceFactory;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 
 // Add services to the container.
 builder.Services
