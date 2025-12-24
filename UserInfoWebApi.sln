@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfoWebApi", "UserInfoWebApi.csproj", "{7B1587E6-6B6C-4F81-AC7C-0D0B67C54F43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfoWebApi", "UserInfoWebApi\UserInfoWebApi.csproj", "{7B1587E6-6B6C-4F81-AC7C-0D0B67C54F43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
