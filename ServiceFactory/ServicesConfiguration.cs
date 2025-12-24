@@ -5,6 +5,7 @@ using ElasticClientFactory = UserInfoWebApi.Search.ElasticClientFactory;
 using IElasticClientFactory = UserInfoWebApi.Search.IElasticClientFactory;
 using DynamoDbClientFactory = UserInfoWebApi.DynamoDB.DynamoDbClientFactory;
 using IDynamoDbClientFactory = UserInfoWebApi.DynamoDB.IDynamoDbClientFactory;
+using UserInfoWebApi.Repositories;
 
 namespace UserInfoWebApi.ServiceFactory;
 
@@ -20,5 +21,6 @@ public static class ServicesConfiguration
         services.AddSingleton<IElasticClientFactory, ElasticClientFactory>();
         services.AddSingleton<IRedisFactory>(_ => new RedisFactory(Environment.GetEnvironmentVariable("REDIS_CONFIG_1")));
         services.AddSingleton<IDynamoDbClientFactory, DynamoDbClientFactory>();
+        services.AddSingleton<IUserInfoRepository, UserInfoRepository>();
     }
 }
