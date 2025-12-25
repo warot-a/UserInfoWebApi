@@ -152,7 +152,7 @@ public class UserInfoRepositoryTests
         var searchResponse = new Mock<ISearchResponse<Location>>();
         searchResponse
             .Setup(r => r.Documents)
-            .Returns((IReadOnlyCollection<Location>)Enumerable.Empty<Location>());
+            .Returns(Array.Empty<Location>());
 
         _mockEsClient
             .Setup(c => c.SearchAsync(It.IsAny<Func<SearchDescriptor<Location>, ISearchRequest>>(),
@@ -275,7 +275,7 @@ public class UserInfoRepositoryTests
         var redisValue = new RedisValue(JsonConvert.SerializeObject(userAccount));
         var mockDb = new Mock<IDatabase>();
         mockDb
-            .Setup(db => db.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Setup(db => db.StringGetAsync(uuids[0], It.IsAny<CommandFlags>()))
             .ReturnsAsync(redisValue);
         _mockRedisConnection
             .Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
@@ -311,7 +311,7 @@ public class UserInfoRepositoryTests
         var redisValue = new RedisValue(JsonConvert.SerializeObject(locationAccount));
         var mockDb = new Mock<IDatabase>();
         mockDb
-            .Setup(db => db.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Setup(db => db.StringGetAsync(locationIds[0], It.IsAny<CommandFlags>()))
             .ReturnsAsync(redisValue);
         _mockRedisConnection
             .Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
