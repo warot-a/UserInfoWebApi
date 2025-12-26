@@ -1,4 +1,6 @@
-# User Info Web API
+# User Info Service
+
+[![.NET Build Status](https://github.com/warot-a/UserInfoWebApi/actions/workflows/dotnet.yml/badge.svg)](https://github.com/warot-a/UserInfoWebApi/actions/workflows/dotnet.yml)
 
 ## Overview
 This project is a proof-of-concept (PoC) web API service designed to provide secure, controlled access to AWS data stores (OpenSearch and ElastiCache Redis) while addressing security and observability concerns.
