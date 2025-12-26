@@ -35,9 +35,11 @@ HTTP Request
     ↓
 Authentication (ApplicationIdAuthenticationHandler)
     ↓
-Custom Middleware (Logging, Context Management)
+Custom Middleware (Logging, Context Management, Global Exception Handling)
     ↓
-Controllers (UserInfoController, HealthCheckController, ErrorController)
+Controllers (UserInfoController, HealthCheckController)
+    ↓
+Repositories (UserInfoRepository)
     ↓
 Service Factories (DynamoDB, Redis, ElasticSearch)
     ↓
@@ -49,10 +51,11 @@ AWS Data Stores (DynamoDB, ElastiCache Redis, OpenSearch)
 - **Framework**: ASP.NET Core (.NET 8.0) - for building the web API
 - **Authentication**: Custom authentication handler using HTTP headers
 - **Data Access**:
+  - **Repositories**: Layer to abstract data access logic (`UserInfoRepository`)
   - **AWS DynamoDB** - for storing application registrations and user metadata
   - **AWS ElastiCache Redis** - for checking if users exist and providing basic user information (email, firstname, lastname)
   - **AWS OpenSearch** - for full-text search on user information and providing richer data than Redis
-- **Logging**: Custom logger provider (`UserInfoLoggerProvider`) for structured logging
+- **Logging**: Serilog and Custom logger provider (`UserInfoLoggerProvider`) for structured logging
 - **Dependency Injection**: Built-in ASP.NET Core DI container via `ServicesConfiguration`
 
 ### Project Structure
@@ -60,10 +63,17 @@ AWS Data Stores (DynamoDB, ElastiCache Redis, OpenSearch)
 - **Controllers/** - API endpoints handling HTTP requests
   - `UserInfoController.cs` - Main endpoint for user information queries
   - `HealthCheckController.cs` - Health check endpoint for monitoring
-  - `ErrorController.cs` - Centralized error handling
 
 - **AuthenticationHandlers/** - Custom authentication logic
   - `ApplicationIdAuthenticationHandler.cs` - Validates client requests via `x-application-id` header
+
+- **Middleware/** - Custom request processing pipelines
+  - `CustomHeaderMiddleware.cs` - Manages context and logging headers
+  - `GlobalExceptionMiddleware.cs` - Centralized exception handling and response formatting
+
+- **Repositories/** - Data access abstraction layer
+  - `UserInfoRepository.cs` - Coordinates data retrieval from Redis, OpenSearch, and DynamoDB
+  - `IUserInfoRepository.cs` - Interface for dependency injection
 
 - **DynamoDB/** - Database client factory and interface
   - `DynamoDbClientFactory.cs` - Creates and configures DynamoDB client
