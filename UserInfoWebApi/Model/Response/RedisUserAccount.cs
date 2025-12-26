@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace UserInfoWebApi.Model.Response;
 
 [JsonObject(MissingMemberHandling = MissingMemberHandling.Ignore)]
-class RedisUserAccount
+public class RedisUserAccount
 {
     public RedisUserAccount()
     {
